@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>СЭЗ Беларуси // NEON QUIZ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#05060f;--panel:#0b0f24;--cyan:#00f0ff;--pink:#ff2bd6;--green:#39ff88;--red:#ff3b5c;--text:#d8e6ff}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;color:var(--text);font-family:Rajdhani,system-ui,sans-serif;font-size:18px;
+    background:
+      radial-gradient(circle at 15% 10%,rgba(255,43,214,.18),transparent 40%),
+      radial-gradient(circle at 85% 90%,rgba(0,240,255,.16),transparent 40%),
+      linear-gradient(rgba(0,240,255,.05) 1px,transparent 1px) 0 0/40px 40px,
+      linear-gradient(90deg,rgba(0,240,255,.05) 1px,transparent 1px) 0 0/40px 40px,
+      var(--bg)}
+  .wrap{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+  h1{font-family:Orbitron,sans-serif;font-weight:900;text-align:center;font-size:clamp(22px,5vw,34px);letter-spacing:2px;margin:10px 0 4px;
+    color:#fff;text-shadow:0 0 8px var(--cyan),0 0 24px var(--cyan),0 0 48px var(--pink)}
+  .sub{text-align:center;color:var(--cyan);letter-spacing:4px;font-size:13px;margin-bottom:22px;text-transform:uppercase;opacity:.85}
+  .card{background:linear-gradient(180deg,rgba(11,15,36,.92),rgba(7,9,22,.92));border:1px solid var(--cyan);border-radius:14px;padding:22px;margin-bottom:22px;
+    box-shadow:0 0 12px rgba(0,240,255,.45),inset 0 0 24px rgba(0,240,255,.06)}
+  .card.pink{border-color:var(--pink);box-shadow:0 0 12px rgba(255,43,214,.45),inset 0 0 24px rgba(255,43,214,.06)}
+  h2{font-family:Orbitron,sans-serif;font-size:16px;letter-spacing:2px;margin:0 0 14px;color:var(--pink);text-shadow:0 0 10px var(--pink)}
+  input{width:100%;padding:13px 14px;background:#050818;border:1px solid var(--cyan);border-radius:8px;color:#fff;font:600 20px Rajdhani,sans-serif;outline:none}
+  input:focus{box-shadow:0 0 14px var(--cyan)}
+  .btn{display:inline-block;margin-top:14px;padding:12px 26px;border:1px solid var(--pink);border-radius:8px;background:transparent;color:#fff;
+    font:700 15px Orbitron,sans-serif;letter-spacing:2px;cursor:pointer;text-transform:uppercase;box-shadow:0 0 10px rgba(255,43,214,.6),inset 0 0 10px rgba(255,43,214,.25);transition:.15s}
+  .btn:hover{background:var(--pink);box-shadow:0 0 24px var(--pink)}
+  .btn.alt{border-color:var(--cyan);box-shadow:0 0 10px rgba(0,240,255,.6),inset 0 0 10px rgba(0,240,255,.25)}
+  .btn.alt:hover{background:var(--cyan);color:#001018;box-shadow:0 0 24px var(--cyan)}
+  .meta{display:flex;justify-content:space-between;color:var(--cyan);font-size:15px;letter-spacing:1px;margin-bottom:8px}
+  .bar{height:6px;background:#10173a;border-radius:3px;margin-bottom:18px;overflow:hidden}
+  .bar div{height:100%;background:linear-gradient(90deg,var(--cyan),var(--pink));box-shadow:0 0 10px var(--cyan);transition:width .3s}
+  .q{font-size:22px;font-weight:600;margin:0 0 14px;color:#fff;line-height:1.3}
+  button.opt{display:block;width:100%;text-align:left;padding:13px 16px;margin:10px 0;border:1px solid rgba(0,240,255,.5);border-radius:8px;
+    background:rgba(0,240,255,.04);color:var(--text);font:600 19px Rajdhani,sans-serif;cursor:pointer;transition:.12s}
+  button.opt:hover:enabled{background:rgba(0,240,255,.14);box-shadow:0 0 14px rgba(0,240,255,.5);transform:translateX(4px)}
+  button.opt:disabled{cursor:default}
+  button.ok{border-color:var(--green);background:rgba(57,255,136,.14);color:#fff;box-shadow:0 0 16px rgba(57,255,136,.6)}
+  button.bad{border-color:var(--red);background:rgba(255,59,92,.14);color:#fff;box-shadow:0 0 16px rgba(255,59,92,.6)}
+  .exp{margin-top:12px;color:#9fb4d9;font-size:17px;border-left:3px solid var(--pink);padding-left:12px}
+  .score{font-family:Orbitron,sans-serif;font-size:44px;text-align:center;color:#fff;margin:8px 0;text-shadow:0 0 12px var(--green),0 0 30px var(--green)}
+  .center{text-align:center}
+  table{width:100%;border-collapse:collapse;font-size:18px}
+  th{font:700 12px Orbitron,sans-serif;letter-spacing:2px;color:var(--cyan);text-align:left;padding:6px 8px;border-bottom:1px solid rgba(0,240,255,.4)}
+  td{padding:9px 8px;border-bottom:1px solid rgba(255,255,255,.07)}
+  td.n{width:44px;font-family:Orbitron,sans-serif;color:var(--pink)}
+  td.s{text-align:right;font-family:Orbitron,sans-serif;color:var(--green);white-space:nowrap}
+  td.t{text-align:right;color:#8fa3c8;white-space:nowrap}
+  tr.me td{background:rgba(255,43,214,.12)}
+  tr.top1 td.n{color:#ffd400;text-shadow:0 0 8px #ffd400}
+  .empty{color:#8fa3c8;text-align:center;padding:10px}
+  .note{font-size:14px;color:#6f84ad;text-align:center;margin-top:8px}
+  .hint{color:#8fa3c8;font-size:16px;margin:0 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>СЭЗ БЕЛАРУСИ</h1>
+  <div class="sub">// neon quiz · 15 вопросов</div>
+  <div id="app"></div>
+  <div class="card pink">
+    <h2>🏆 ТАБЛИЦА ЛИДЕРОВ</h2>
+    <div id="board"></div>
+    <div class="note">Общий рейтинг всех участников · топ-10</div>
+  </div>
+</div>
+<script>
+const Q = [
+ {q:"Сколько свободных экономических зон действует в Беларуси?",a:["6","4","5","7"],e:"Действуют шесть СЭЗ: Брест, Минск, Гомель-Ратон, Витебск, Могилев, Гродноинвест."},
+ {q:"Какая СЭЗ была создана первой?",a:["«Брест» (1996)","«Минск» (1998)","«Витебск» (1999)","«Гродноинвест» (2002)"],e:"Первой в 1996 году появилась СЭЗ «Брест»."},
+ {q:"Каким законом регулируется деятельность СЭЗ (основной акт)?",a:["Закон от 7 декабря 1998 г. № 213-З","Указ № 481","Постановление № 383","Закон о Великом камне"],e:"Основной акт — Закон «О свободных экономических зонах» от 7.12.1998 № 213-З."},
+ {q:"Сколько резидентов было зарегистрировано в СЭЗ на 1 января 2026 г.?",a:["426","439","413","500"],e:"На 01.01.2026 — 426 резидентов (на начало 2025 г. — 439)."},
+ {q:"В какой СЭЗ больше всего резидентов?",a:["«Минск» (107)","«Брест» (77)","«Гродноинвест» (77)","«Гомель-Ратон» (59)"],e:"Лидер — СЭЗ «Минск» со 107 резидентами."},
+ {q:"Какую долю экспорта товаров дали резиденты СЭЗ в 2025 году?",a:["20,9%","5,3%","18,5%","4,8%"],e:"Доля в экспорте — 20,9%; в промпроизводстве — 18,5%."},
+ {q:"Каков вклад резидентов СЭЗ в ВВП страны в 2025 году?",a:["4,7%","5,3%","18,5%","20,9%"],e:"Совокупный вклад в ВВП в 2025 г. — 4,7% (в 2024 г. — 5,3%)."},
+ {q:"Какой вид деятельности доминирует среди резидентов СЭЗ?",a:["Обрабатывающая промышленность (86,8%)","Торговля","Транспорт","Строительство"],e:"Обрабатывающая промышленность — 86,8% резидентов."},
+ {q:"Кто регистрирует организацию в качестве резидента СЭЗ?",a:["Администрация соответствующей СЭЗ","Налоговая инспекция","Горисполком","Министерство иностранных дел"],e:"Регистрацию резидентов проводит администрация СЭЗ."},
+ {q:"При каком главном условии резиденту предоставляются льготы?",a:["Экспортирует продукцию или поставляет её другим резидентам СЭЗ","Имеет иностранного учредителя","Работает только на внутренний рынок","Наняло более 1000 человек"],e:"Льготы привязаны к экспорту либо поставкам другим резидентам СЭЗ."},
+ {q:"Какой порог инвестиций возможен для нового резидента (в рамках сниженного порога)?",a:["От 500 тыс. евро в течение 3 лет","От 10 млн евро","От 100 тыс. евро за 1 год","Порога нет"],e:"Проект может предусматривать от 500 тыс. евро, вложенных в течение трёх лет."},
+ {q:"Какой экспорт обеспечили резиденты СЭЗ «Брест» в 2025 году?",a:["Более 1 млрд долл. в 56 стран","100 млн долл. в 10 стран","500 млн долл. в 20 стран","5 млрд долл. в 100 стран"],e:"Более 1 млрд долларов, география — 56 стран."},
+ {q:"Какая компания-резидент СЭЗ «Минск» создаёт транспортно-логистический центр?",a:["«АлексТрансАльянс»","«3Д Паперко»","«Белбиокомпост»","«ГлобалМаш Индустрия»"],e:"«АлексТрансАльянс» — центр в Минском районе, запуск запланирован на IV кв. 2026 г."},
+ {q:"Что ввело постановление Совмина от 29.07.2026 № 383 (с 1 августа 2026 г.)?",a:["Новые критерии оценки резидентов и ежегодную оценку до 1 марта","Отмену льгот","Создание седьмой СЭЗ","Запрет на экспорт"],e:"Расширены критерии оценки эффективности и ужесточены условия договоров резидентов."},
+ {q:"В каком году созданы СЭЗ «Могилев» и «Гродноинвест»?",a:["2002","1996","1998","1999"],e:"Обе зоны созданы в 2002 году."}
+];
+
+const KEY='sez_quiz_leaderboard_v1', NAMEKEY='sez_quiz_name';
+const app=document.getElementById('app'), boardEl=document.getElementById('board');
+let i=0, score=0, order=[], player='', t0=0, lastEntry=null;
+
+const API='/api/leaderboard';
+async function load(){
+  try{
+    const r=await fetch(API,{cache:'no-store'});
+    if(!r.ok)throw new Error(r.status);
+    const d=await r.json();
+    return Array.isArray(d)?d:[];
+  }catch(e){return null}
+}
+function shuffle(a){for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a}
+function fmt(ms){const s=Math.round(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function cmp(a,b){return b.score-a.score || a.time-b.time}
+
+async function addResult(name,sc,time){
+  lastEntry=name.toLowerCase();
+  try{
+    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,score:sc,time})});
+    return r.ok;
+  }catch(e){return false}
+}
+
+async function renderBoard(){
+  const data=await load();
+  boardEl.innerHTML='';
+  if(data===null){boardEl.innerHTML='<div class="empty">Не удалось загрузить таблицу лидеров. Попробуйте обновить страницу.</div>';return}
+  const list=data.sort(cmp).slice(0,10);
+  if(!list.length){boardEl.innerHTML='<div class="empty">Пока никого нет. Стань первым!</div>';return}
+  const t=document.createElement('table');
+  t.innerHTML='<tr><th>#</th><th>ИМЯ</th><th style="text-align:right">ОЧКИ</th><th style="text-align:right">ВРЕМЯ</th></tr>';
+  list.forEach((r,idx)=>{
+    const tr=document.createElement('tr');
+    if(idx===0)tr.className='top1';
+    if(lastEntry&&r.name.toLowerCase()===lastEntry)tr.classList.add('me');
+    const c=[['n',idx+1],['',r.name],['s',r.score+' / '+Q.length],['t',fmt(r.time)]];
+    c.forEach(([cls,v])=>{const td=document.createElement('td');if(cls)td.className=cls;td.textContent=v;tr.appendChild(td)});
+    t.appendChild(tr);
+  });
+  boardEl.appendChild(t);
+}
+
+function start(){
+  let saved='';try{saved=localStorage.getItem(NAMEKEY)||''}catch(e){}
+  app.innerHTML=`<div class="card">
+    <h2>ВВЕДИ ПОЗЫВНОЙ</h2>
+    <p class="hint">Твоё имя появится в таблице лидеров вместе с количеством правильных ответов.</p>
+    <input id="nm" maxlength="16" placeholder="Имя (до 16 символов)" autocomplete="off">
+    <div id="err" style="color:var(--red);margin-top:8px;min-height:20px"></div>
+    <button class="btn" id="go">▶ Начать тест</button>
+  </div>`;
+  const inp=document.getElementById('nm');inp.value=saved;inp.focus();
+  const go=()=>{
+    const v=inp.value.trim().replace(/\s+/g,' ');
+    if(v.length<2){document.getElementById('err').textContent='Имя должно быть не короче 2 символов';return}
+    player=v;try{localStorage.setItem(NAMEKEY,v)}catch(e){}
+    begin();
+  };
+  document.getElementById('go').onclick=go;
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+}
+
+function begin(){i=0;score=0;order=shuffle([...Q.keys()]);t0=Date.now();lastEntry=null;renderBoard();show()}
+
+function show(){
+  if(i>=Q.length){finish();return}
+  const item=Q[order[i]];
+  const opts=shuffle(item.a.map((t,idx)=>({t,ok:idx===0})));
+  app.innerHTML=`<div class="card">
+    <div class="meta"><span>👤 ${'' }</span><span>ВОПРОС ${i+1}/${Q.length}</span><span>✔ ${score}</span></div>
+    <div class="bar"><div style="width:${i/Q.length*100}%"></div></div>
+    <p class="q"></p><div id="o"></div><div class="exp" id="x" hidden></div><div id="n"></div></div>`;
+  app.querySelector('.meta span').textContent='👤 '+player;
+  app.querySelector('.q').textContent=item.q;
+  const box=document.getElementById('o');
+  opts.forEach(o=>{
+    const b=document.createElement('button');b.className='opt';b.textContent=o.t;
+    b.onclick=()=>{
+      [...box.children].forEach((c,idx)=>{c.disabled=true;if(opts[idx].ok)c.classList.add('ok')});
+      if(o.ok)score++;else b.classList.add('bad');
+      const x=document.getElementById('x');x.hidden=false;x.textContent=item.e;
+      const nb=document.createElement('button');nb.className='btn alt';
+      nb.textContent=i===Q.length-1?'Результат ▶':'Далее ▶';
+      nb.onclick=()=>{i++;show()};
+      document.getElementById('n').appendChild(nb);
+    };
+    box.appendChild(b);
+  });
+}
+
+async function finish(){
+  const time=Date.now()-t0;
+  const saved=addResult(player,score,time);
+  const msg=score>=13?'Легенда сети. Безупречно!':score>=9?'Хороший результат. Есть куда расти.':'Перечитай доклад и попробуй снова.';
+  app.innerHTML=`<div class="card center">
+    <h2>ТЕСТ ЗАВЕРШЁН</h2>
+    <div class="score">${score} / ${Q.length}</div>
+    <p>Время: ${fmt(time)}</p><p class="msg"></p>
+    <button class="btn" id="again">↻ Ещё раз</button>
+    <button class="btn alt" id="chg">Сменить имя</button></div>`;
+  app.querySelector('.msg').textContent=player+', '+msg;
+  document.getElementById('again').onclick=begin;
+  document.getElementById('chg').onclick=()=>{lastEntry=null;renderBoard();start()};
+  const ok=await saved;
+  if(!ok){const p=document.createElement('p');p.style.color='var(--red)';p.textContent='Не удалось сохранить результат в таблицу лидеров.';app.querySelector('.card').insertBefore(p,document.getElementById('again'))}
+  renderBoard();
+}
+
+renderBoard();start();
+</script>
+</body>
+</html>
